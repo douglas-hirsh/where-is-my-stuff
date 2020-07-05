@@ -24,16 +24,18 @@ public class Item {
     public Item() {
     }
 
-    public Item(long id, String name, String description, User user) {
+    public Item(long id, String name, String description, Location location, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.location = location;
         this.user = user;
     }
 
-    public Item(String name, String description, User user) {
+    public Item(String name, String description, Location location, User user) {
         this.name = name;
         this.description = description;
+        this.location = location;
         this.user = user;
     }
 
@@ -67,5 +69,13 @@ public class Item {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

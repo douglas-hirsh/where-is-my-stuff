@@ -14,6 +14,10 @@ public class Item {
 
     private String description;
 
+    @ManyToOne
+    @JoinColumn (name = "location_id")
+    private Location location;
+
     @OneToOne
     private User user;
 

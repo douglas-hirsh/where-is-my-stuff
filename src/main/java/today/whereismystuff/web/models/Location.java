@@ -1,7 +1,11 @@
 package today.whereismystuff.web.models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "locations")
@@ -15,6 +19,9 @@ public class Location {
     private String path;
 
     private String name;
+
+    @Transient
+    private List<Long> pathIds = new ArrayList<>();
 
     @OneToOne
     private User user;
@@ -41,6 +48,18 @@ public class Location {
         this.name = name;
         this.user = user;
         this.items = items;
+    }
+
+    @PostLoad
+    private void postLoad() {
+        // shred the path ids.
+        List<Long> parsedPathIds = Arrays
+                                    .stream(this.path.split("/"))
+                                    .filter(Predicate.not(String::isBlank))
+                                    .map(Long::parseLong)
+                                    .collect(Collectors.toList());
+
+        this.pathIds.addAll(parsedPathIds);
     }
 
     public long getId() {
@@ -89,5 +108,24 @@ public class Location {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Long> getPathIds() {
+        return pathIds;
+    }
+
+
+    public List<Location> getParentLocations(List<Location> allLocations) {
+        return this.pathIds
+                .stream()
+                .map(
+                    locationId ->
+                        allLocations
+                            .stream()
+                            .filter(location -> location.getId() == locationId)
+                            .findFirst()
+                            .get()
+                )
+                .collect(Collectors.toList());
     }
 }

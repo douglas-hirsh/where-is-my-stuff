@@ -16,7 +16,7 @@
                     <div th:if="${allItems.size() == 0}">No items found.</div>
                     <div th:each="item: ${allItems}">
                         <div th:text="${item.name}"></div>
-                        <div>Stored in <span th:text="${item.location.name}"></span></div>
+                        <div>Stored in <span th:each="itemParent: ${item.parents}" th:text="'/ ' + ${itemParent.name} + ' '"></span></div>
                         <div>Created by <span th:text="${item.user.username}"></span></div>
                     </div>
                 </div>

@@ -20,9 +20,6 @@ public class Location {
 
     private String name;
 
-    @Transient
-    private List<Long> pathIds = new ArrayList<>();
-
     @OneToOne
     private User user;
 
@@ -50,8 +47,7 @@ public class Location {
         this.items = items;
     }
 
-    @PostLoad
-    private void postLoad() {
+    public List<Long> getPathIds() {
         // shred the path ids.
         List<Long> parsedPathIds = Arrays
                                     .stream(this.path.split("/"))
@@ -59,7 +55,7 @@ public class Location {
                                     .map(Long::parseLong)
                                     .collect(Collectors.toList());
 
-        this.pathIds.addAll(parsedPathIds);
+        return parsedPathIds;
     }
 
     public long getId() {
@@ -110,13 +106,8 @@ public class Location {
         this.user = user;
     }
 
-    public List<Long> getPathIds() {
-        return pathIds;
-    }
-
-
     public List<Location> getParentLocations(List<Location> allLocations) {
-        return this.pathIds
+        return this.getPathIds()
                 .stream()
                 .map(
                     locationId ->

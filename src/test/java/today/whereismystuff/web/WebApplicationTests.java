@@ -44,9 +44,6 @@ class WebApplicationTests {
     @Autowired
     private LocationsRepository locationsRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     @Autowired
     private MockMvc mvc;
 

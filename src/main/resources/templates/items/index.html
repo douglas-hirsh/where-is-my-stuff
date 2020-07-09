@@ -1,35 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout}">
+
 <head>
     <title>Items</title>
 </head>
+
 <body>
 
-<div layout:fragment="content">
-    <section class="my-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Items</h1>
-                    <div th:if="${allItems.size() == 0}">No items found.</div>
-                    <div th:each="item: ${allItems}">
-                        <div th:text="${item.name}"></div>
-                        <div>
-                            Stored in
-                            <span th:each="itemParent: ${item.parents}">
-                                <span>/ </span>
-                                <a th:href="@{/locations/{parentLocationId}(parentLocationId=${itemParent.id})}" th:text="${itemParent.name}"></a>
-                            </span>
+    <div layout:fragment="content">
+        <section class="my-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Items</h1>
+                        <div th:if="${allItems.size() == 0}">No items found.</div>
+                        <div th:each="item: ${allItems}">
+                            <div th:text="${item.name}"></div>
+                            <div>
+                                Stored in
+                                <span th:each="itemParent: ${item.parents}">
+                                    <span>/ </span>
+                                    <a th:href="@{/locations/{parentLocationId}(parentLocationId=${itemParent.id})}"
+                                        th:text="${itemParent.name}"></a>
+                                </span>
+                            </div>
+                            <div>Created by <span th:text="${item.user.username}"></span></div>
                         </div>
-                        <div>Created by <span th:text="${item.user.username}"></span></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 
 </body>
+
 </html>

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 public class LocationServiceTests {
     @Autowired
     private UsersRepository usersRepository;

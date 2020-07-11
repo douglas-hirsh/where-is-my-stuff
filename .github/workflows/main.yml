@@ -28,6 +28,6 @@ jobs:
         with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
             dokku-host: '159.203.191.222'
-            dokku-app-name: '/srv/whereismystuff.today/repo.git'
+            app-name: '/srv/whereismystuff.today/repo.git'
             dokku-user: douglas
-            dokku-remote-branch: master
+            remote-branch: master

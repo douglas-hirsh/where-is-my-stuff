@@ -8,8 +8,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(unique = true, nullable = false)
     private String username;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
+    @Column(nullable = false)
     private String password;
 
     public User() {
@@ -26,6 +32,13 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
     }
 
     public long getId() {

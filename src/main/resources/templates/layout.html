@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
@@ -25,18 +26,37 @@
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" th:href="@{/contact}">Contact Us</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" th:href="@{/about}">About Us</a>
                 </li>
-                <li class="nav-item ml-md-auto active">
-                    <a class="nav-link" th:href="@{/signup}">Sign Up</a>
+
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/locations}">Locations</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/items}">Items</a>
+                </li>
+                <li class="nav-item ml-md-auto active">
+
+                </li>
+                <li class="nav-item active" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/sign-up}">Sign Up</a>
+                </li>
+                <li class="nav-item active" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" th:href="@{/login}">Log In</a>
                 </li>
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <div class="nav-link" th:text="${'Welcome ' + #authentication.principal.username}">Name</div>
+                </li>
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" th:method="post">
+                        <button class="btn btn-primary">Logout</button>
+                    </form>
+                </li>
+
             </ul>
         </div>
     </div>

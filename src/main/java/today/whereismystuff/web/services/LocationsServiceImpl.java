@@ -25,6 +25,6 @@ public class LocationsServiceImpl implements LocationsService {
 
     @Override
     public LocationViewModel getById(User user, long id) {
-        return new LocationViewModel(locationsRepository.findByUser(user).get(0));
+        return new LocationViewModel(locationsRepository.findFirstByUserAndId(user, id));
     }
 }

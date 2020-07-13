@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface LocationsRepository extends JpaRepository<Location, Long> {
     List<Location> findByUser(User user);
-    List<Location> findByPathStartingWithOrPath(String prefix, String path);
-    List<Location> findByUserAndPathStartingWithOrPath(User user, String prefix, String path);
+
+    Location findFirstByUserAndId(User user, long Id);
 
     @Query("FROM Location l WHERE l.user = :user AND (l.path like concat(:path, '/%') escape '%' OR l.path = :path)")
     List<Location> findAllByPathAndUser(@Param("user") User user, @Param("path") String path);

@@ -38,6 +38,7 @@ public class LocationServiceTests {
     private EntityManager entityManager;
 
     private User testUser;
+    private User testAlternateUser;
     private Location homeLocation;
     private Location bedroomLocation;
     private Location closetLocation;
@@ -46,6 +47,7 @@ public class LocationServiceTests {
     @BeforeEach
     void before() {
         this.testUser = usersRepository.save(new User("tester", "t@t.com", "test"));
+        this.testAlternateUser = usersRepository.save(new User("tester 2", "t2@t.com", "test"));
 
         this.homeLocation = locationsRepository.save(new Location(1, "/", "House", this.testUser, null));
         homeLocation.setPath(homeLocation.getPath() + homeLocation.getId());
@@ -74,8 +76,9 @@ public class LocationServiceTests {
     @Test
     void canGetAllParentsDescendantLocations() {
 
-        List<Location> locations = locationsRepository.findByPathStartingWithOrPath(closetLocation.getPath() + "/", closetLocation.getPath());
-        List<Item> items =  itemsRepository.findByLocationIn(locations);
+        List<Location> locations = locationsRepository.findAllByPathAndUser(testUser, bedroomLocation.getPath());
+        locations.stream().forEach(s -> System.out.println(s.getName()));
+        List<Item> items =  itemsRepository.findByUserAndLocationIn(testUser, locations);
 
 
         //System.out.println(this.closetLocation.getParentLocations(locations));

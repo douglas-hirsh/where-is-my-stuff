@@ -1,8 +1,11 @@
 package today.whereismystuff.web.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import today.whereismystuff.web.models.Location;
 import today.whereismystuff.web.models.LocationViewModel;
+import today.whereismystuff.web.models.User;
 import today.whereismystuff.web.repositories.LocationsRepository;
 
 import java.util.List;
@@ -16,12 +19,12 @@ public class LocationsServiceImpl implements LocationsService {
     }
 
     @Override
-    public List<Location> getAll() {
-        return locationsRepository.findAll();
+    public List<Location> getAll(User user) {
+        return locationsRepository.findByUser(user);
     }
 
     @Override
-    public LocationViewModel getById(long id) {
-        return new LocationViewModel(locationsRepository.getOne(id));
+    public LocationViewModel getById(User user, long id) {
+        return new LocationViewModel(locationsRepository.findByUser(user).get(0));
     }
 }

@@ -107,6 +107,9 @@ public class Location {
     }
 
     public List<Location> getParentLocations(List<Location> allLocations) {
+
+        if(allLocations.size() == 0) return new ArrayList<>();
+
         return this.getPathIds()
                 .stream()
                 .map(

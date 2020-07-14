@@ -4,9 +4,11 @@ import org.springframework.stereotype.Service;
 import today.whereismystuff.web.models.Item;
 import today.whereismystuff.web.models.ItemViewModel;
 import today.whereismystuff.web.models.Location;
+import today.whereismystuff.web.models.User;
 import today.whereismystuff.web.repositories.ItemsRepository;
 import today.whereismystuff.web.repositories.LocationsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,10 +23,11 @@ public class ItemsServiceImpl implements ItemsService {
     }
 
     @Override
-    public List<ItemViewModel> getAllItems() {
-        List<Location> allLocations = locationsRepository.findAll();
-        return itemsRepository
-                .findAll()
+    public List<ItemViewModel> getAllItems(User user) {
+        List<Location> allLocations = locationsRepository.findByUser(user);
+        List<Item> items = itemsRepository.findByUser(user);
+
+        return items
                 .stream()
                 .map(item -> new ItemViewModel(item, allLocations))
                 .collect(Collectors.toList());

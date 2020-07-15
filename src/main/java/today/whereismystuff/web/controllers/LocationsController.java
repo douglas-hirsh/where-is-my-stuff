@@ -1,13 +1,11 @@
 package today.whereismystuff.web.controllers;
 
-import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import today.whereismystuff.web.models.Location;
+import today.whereismystuff.web.models.LocationCreateViewModel;
 import today.whereismystuff.web.models.User;
 import today.whereismystuff.web.services.LocationsService;
 
@@ -37,6 +35,8 @@ public class LocationsController {
             model.addAttribute("location", locationsService.getById(currentUser, id));
         }
 
+        model.addAttribute("newLocation", new LocationCreateViewModel("", id, currentUser.getId()));
+
         return "locations/create";
     }
 
@@ -48,4 +48,12 @@ public class LocationsController {
         return "locations/show";
     }
 
+    @PostMapping("locations/create")
+    public String saveLocation(@ModelAttribute LocationCreateViewModel newLocation) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        newLocation.setUserId(currentUser.getId());
+
+        locationsService.saveNewLocation(newLocation);
+        return "redirect:/locations";
+    }
 }

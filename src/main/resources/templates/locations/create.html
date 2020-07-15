@@ -18,7 +18,14 @@
                     <div th:if="${location != null}">
                         Adding a location to: <span th:text="${location.name}"></span>
                     </div>
-                    Add a form here
+                    <form th:action="@{/locations/create}" method="POST" th:object="${newLocation}">
+                        <input id="location" type="hidden" th:field="*{parentId}" />
+
+                        <label for="name">Name</label>
+                        <input id="name" th:field="*{name}" />
+
+                        <input value="Add Location" type="submit" />
+                    </form>
                 </div>
             </div>
         </div>

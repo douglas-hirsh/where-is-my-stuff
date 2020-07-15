@@ -16,7 +16,8 @@
                     <a class="btn btn-primary" th:href="@{/locations/create}">Add Location</a>
                     <div th:if="${allLocations.size() == 0}">No locations found.</div>
                     <div th:each="location: ${allLocations}">
-                        <div th:text="${location.name}"></div>
+                        <div><a th:href="@{/locations/{locationId}(locationId=${location.id})}"
+                                th:text="${location.name}"></a></div>
                         <div th:text="${location.path}"></div>
                         <div th:text="${location.depth}"></div>
                         <div>Created by <span th:text="${location.user.username}"></span></div>

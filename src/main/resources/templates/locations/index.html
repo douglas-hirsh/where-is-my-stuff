@@ -13,6 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1>Locations</h1>
+                    <a class="btn btn-primary" th:href="@{/locations/create}">Add Location</a>
                     <div th:if="${allLocations.size() == 0}">No locations found.</div>
                     <div th:each="location: ${allLocations}">
                         <div th:text="${location.name}"></div>

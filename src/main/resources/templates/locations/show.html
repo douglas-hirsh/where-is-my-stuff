@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1>Location - <span th:text="${location.name}"></span></h1>
-
+                    <a class="btn btn-primary" th:href="@{/locations/{location}/create(location=${location.id})}">Add Location</a>
                 </div>
             </div>
         </div>

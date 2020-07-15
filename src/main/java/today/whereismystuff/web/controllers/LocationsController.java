@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import today.whereismystuff.web.models.Location;
 import today.whereismystuff.web.models.User;
 import today.whereismystuff.web.services.LocationsService;
@@ -28,6 +29,17 @@ public class LocationsController {
         return "locations/index";
     }
 
+    @GetMapping(path={"/locations/create", "/locations/{id}/create"})
+    public String showCreateLocationForm(@PathVariable(value = "id", required = false) Long id, Model model) {
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if(id != null) {
+            model.addAttribute("location", locationsService.getById(currentUser, id));
+        }
+
+        return "locations/create";
+    }
+
     @GetMapping("/locations/{id}")
     public String getLocation(@PathVariable Long id, Model model) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -35,4 +47,5 @@ public class LocationsController {
         model.addAttribute("location", locationsService.getById(currentUser, id));
         return "locations/show";
     }
+
 }

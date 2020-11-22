@@ -4,6 +4,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import today.whereismystuff.web.models.ItemCreateViewModel;
 import today.whereismystuff.web.models.Location;
 import today.whereismystuff.web.models.LocationCreateViewModel;
 import today.whereismystuff.web.models.User;
@@ -45,6 +46,13 @@ public class LocationsController {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         model.addAttribute("location", locationsService.getById(currentUser, id));
+
+        model.addAttribute("newItem", new ItemCreateViewModel(
+                "",
+                "",
+                id,
+                currentUser.getId()));
+
         return "locations/show";
     }
 

@@ -14,6 +14,17 @@
                 <div class="col-md-12">
                     <h1>Location - <span th:text="${location.name}"></span></h1>
                     <a class="btn btn-primary" th:href="@{/locations/{location}/create(location=${location.id})}">Add Location</a>
+                    <form th:action="@{/items}" method="POST" th:object="${newItem}">
+                        <input id="locationId" type="hidden" th:field="*{locationId}" />
+
+                        <label for="name">Name</label>
+                        <input id="name" th:field="*{name}" />
+
+                        <label for="description">Description</label>
+                        <input id="description" th:field="*{description}" />
+
+                        <input value="Add Item" type="submit" />
+                    </form>
                 </div>
             </div>
         </div>

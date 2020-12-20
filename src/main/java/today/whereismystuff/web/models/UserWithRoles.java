@@ -8,8 +8,13 @@ import java.util.Collection;
 
 public class UserWithRoles extends User implements UserDetails {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8232412521435906626L;
+
     public UserWithRoles(User user) {
-        super(user);  // Call the copy constructor defined in User
+        super(user); // Call the copy constructor defined in User
     }
 
     @Override

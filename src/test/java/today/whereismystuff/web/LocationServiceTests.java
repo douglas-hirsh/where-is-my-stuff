@@ -15,10 +15,7 @@ import today.whereismystuff.web.repositories.ItemsRepository;
 import today.whereismystuff.web.repositories.LocationsRepository;
 import today.whereismystuff.web.repositories.UsersRepository;
 
-import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -34,11 +31,7 @@ public class LocationServiceTests {
     @Autowired
     private LocationsRepository locationsRepository;
 
-    @Autowired
-    private EntityManager entityManager;
-
     private User testUser;
-    private User testAlternateUser;
     private Location homeLocation;
     private Location bedroomLocation;
     private Location closetLocation;
@@ -47,7 +40,6 @@ public class LocationServiceTests {
     @BeforeEach
     void before() {
         this.testUser = usersRepository.save(new User("tester", "t@t.com", "test"));
-        this.testAlternateUser = usersRepository.save(new User("tester 2", "t2@t.com", "test"));
 
         this.homeLocation = locationsRepository.save(new Location(1, "/", "House", this.testUser, null));
         homeLocation.setPath(homeLocation.getPath() + homeLocation.getId());
@@ -66,7 +58,8 @@ public class LocationServiceTests {
     }
 
     private Location addLocationToLocation(Location parent, String name) {
-        Location newLocation = new Location(parent.getDepth() + 1, parent.getPath() + "/", name, parent.getUser(), null);
+        Location newLocation = new Location(parent.getDepth() + 1, parent.getPath() + "/", name, parent.getUser(),
+                null);
         newLocation = locationsRepository.save(newLocation);
         newLocation.setPath(newLocation.getPath() + newLocation.getId());
         locationsRepository.save(newLocation);
@@ -78,10 +71,9 @@ public class LocationServiceTests {
 
         List<Location> locations = locationsRepository.findAllByPathAndUser(testUser, bedroomLocation.getPath());
         locations.stream().forEach(s -> System.out.println(s.getName()));
-        List<Item> items =  itemsRepository.findByUserAndLocationIn(testUser, locations);
+        List<Item> items = itemsRepository.findByUserAndLocationIn(testUser, locations);
 
-
-        //System.out.println(this.closetLocation.getParentLocations(locations));
+        // System.out.println(this.closetLocation.getParentLocations(locations));
         items.stream().forEach(s -> System.out.println(s.getName()));
 
     }

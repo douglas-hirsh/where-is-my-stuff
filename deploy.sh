@@ -1,4 +1,6 @@
 #!/bin/bash
+# example
+# ./deploy.sh example.com example douglas@example.com
 domain=$1
 appname=$2
 email=$3

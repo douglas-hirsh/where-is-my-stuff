@@ -1,6 +1,7 @@
 #!/bin/bash
 domain=$1
 appname=$2
+email=$3
 dbname=$2-mysql
 
 mvn package
@@ -15,6 +16,8 @@ dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 dokku apps:create $appname
 dokku mysql:create $dbname
 dokku mysql:link $dbname $appname
+dokku domains:add $appname $domain
+dokku domains:remove $appname $appname
 setup_dokku
 
 git remote add dokku dokku@$domain:$appname
@@ -24,9 +27,8 @@ git commit -m "feat: Add Procfile and system.properties for deployment"
 git push dokku master
 
 #Need to set email address
-#dokku config:set --no-restart wims DOKKU_LETSENCRYPT_EMAIL=<e-mail>
-#ssh root@$domain bash <<setup_dokku
-#dokku domains:add $appname $domain
-#dokku domains:remove $appname $appname
-#dokku letsencrypt $appname
-#setup_dokku
+dokku config:set --no-restart $appname DOKKU_LETSENCRYPT_EMAIL=$email
+ssh root@$domain bash <<setup_dokku
+dokku letsencrypt $appname
+dokku letsencrypt:auto-renew $appname
+setup_dokku
